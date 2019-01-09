@@ -1,28 +1,54 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
-
+import html2canvas from 'html2canvas';
 class App extends Component {
 
+  constructor(props) {
+    super(props);
+    this.copRef = React.createRef();
+  }
 
-  
+  state = {
+    image: null
+  }
+
+  onSnapshot = () => {
+    html2canvas(
+      document.querySelector("." + this.copRef.current.className), 
+      {
+        useCORS: true,
+        logging: false
+      }).then((canvas) => {
+        let uri = canvas.toDataURL('image/png');
+        this.setState({
+          image: uri
+        });
+    });
+  }
+
+
   render() {
     return (
-      <div className="App" ref = {}>
+      <div className="App" ref = {this.copRef}>
         <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
+          <img
+            src = "/images/01.jpg"
+            alt = "demo"
+            crossOrigin ="Anonymous"
+          />
         </header>
+        <button onClick = {this.onSnapshot}>Snapshot</button>
+        {
+          this.state.image && 
+          <React.Fragment>
+            <h1>Snapshot Image</h1>
+            <img 
+              src = {this.state.image}
+              alt = "snapshot component"
+            />
+          </React.Fragment>
+
+        }
       </div>
     );
   }
