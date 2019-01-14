@@ -29,8 +29,8 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App" ref = {this.copRef}>
-        <header className="App-header">
+      <div className="App" >
+        <header className="App-header" ref = {this.copRef}>
           <img
             src = "/images/01.jpg"
             alt = "demo"
